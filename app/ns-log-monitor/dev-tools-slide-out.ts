@@ -1,11 +1,14 @@
-import {Inject, Component, ViewEncapsulation, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
+import {Inject, Component, ViewEncapsulation, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit, Input} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {View} from "ui/core/view";
 import {screen} from "platform";
-import { NSLogMonitor } from "./log-monitor"
+import {NSLogMonitor } from "./log-monitor"
+import {device, platformNames} from "platform";
 
+const isIOS = device.os === platformNames.ios;
 const TOGGLE_BTN_HEIGHT = 40;
-const STATUS_BAR_HEIGHT = 25;
+const STATUS_BAR_HEIGHT = isIOS ? 22 : 25;
+const SOFT_BUTTON_HEIGHT = isIOS ? 0 : 55;
 
 @Component({
     selector: 'dev-tools-slide-out',
@@ -28,7 +31,7 @@ const STATUS_BAR_HEIGHT = 25;
     }
   `],
     template: `
-    <grid-layout rows="40 *" #dock class="dock" rowSpan="100" colSpan="100">
+    <grid-layout rows="auto *" #dock class="dock" rowSpan="100" colSpan="100">
       <label text="^" (tap)="toggleShown()" #toggle [width]="toggleLength" [height]="toggleLength" class="toggle"></label>
       <grid-layout row="1">
         <ns-log-monitor></ns-log-monitor>
@@ -37,10 +40,11 @@ const STATUS_BAR_HEIGHT = 25;
   `
 })
 export class DevToolsSlideOut implements AfterViewInit {
-    public shown: boolean = false;
+    @Input() screenCover: number = 0.5;
     @ViewChild("toggle") toggleBtnEl: ElementRef;
     @ViewChild("dock") dockEl: ElementRef;
 
+    private shown: boolean = false;
     toggleLength: number = TOGGLE_BTN_HEIGHT;
     toggleBtn: View;
     dock: View;
@@ -49,9 +53,9 @@ export class DevToolsSlideOut implements AfterViewInit {
     private offsetHidden: number;
 
     constructor() {
-        var height = screen.mainScreen.heightDIPs - STATUS_BAR_HEIGHT;
+        var height = screen.mainScreen.heightDIPs - STATUS_BAR_HEIGHT - SOFT_BUTTON_HEIGHT;
         this.offsetHidden = height - this.toggleLength;
-        this.offsetShown = height / 2;
+        this.offsetShown = height * this.screenCover - this.toggleLength;
     }
 
     ngAfterViewInit() {

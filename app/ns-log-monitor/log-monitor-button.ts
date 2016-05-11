@@ -14,15 +14,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
   template: `
-  <button [text]="text" (tap)="handleAction()" [class.disabled]="disabled"></button>`,
+  <label [text]="text" (tap)="handleAction()" [class.disabled]="disabled"></label>`,
   styles: [`
-     button {
+     label {
       font-family: monospace;
       font-weight: bold;
       border-radius: 3;
       margin: 5 3;
-      padding: 5;
-      font-size: 14;
+      padding: 3 5;
+      font-size: 10;
       color: white;
       background-color: #4F5A65;
     }

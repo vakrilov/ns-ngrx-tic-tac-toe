@@ -21,7 +21,7 @@ import {LogMonitorButton} from './log-monitor-button';
     .toolbar {
       horizontal-align: center;
     }
-    
+
     .items {
       background-color: #69737D;
       horizontal-align: stretch;
@@ -46,7 +46,8 @@ import {LogMonitorButton} from './log-monitor-button';
       <scroll-view row="1">
         <stack-layout class="items">
           <log-monitor-entry
-            *ngFor="let item of (items$ | async)"
+            *ngFor="let item of (items$ | async); let even = even"
+            [even]="even"
             [item]="item"
             (toggle)="handleToggle($event.id)">
           </log-monitor-entry>

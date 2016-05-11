@@ -17,9 +17,8 @@ import {LogMonitorButton} from './log-monitor-button';
   directives: [LogMonitorButton],
   encapsulation: ViewEncapsulation.Emulated,
   template: `
-    <grid-layout columns="* auto" class="container"> 
+    <grid-layout columns="* auto" class="container" [class.even]="even" (tap)="handleToggle()"> 
       <label [text]="item.action.type"
-            (tap)="handleToggle()"
             class="title-bar"
             [class.collapsed]="item.collapsed"></label>
       
@@ -40,10 +39,10 @@ import {LogMonitorButton} from './log-monitor-button';
       text-align: left;
       horizontal-align: stretch;
       vertical-align: center;
-      margin: 10;
+      margin: 8 10;
       font-family: monosapce;
       color: #FFFFFF;
-      font-size: 16;
+      font-size: 12;
       font-weight: bold;
     }
     .collapsed{
@@ -51,10 +50,14 @@ import {LogMonitorButton} from './log-monitor-button';
       font-style: italic;
       opacity: 0.5;
     }
+    .even {
+      background-color: #7A8590;
+    }
   `]
 })
 export class LogMonitorEntry {
   @Input() item: LogEntryItem;
+  @Input() even: boolean;
   @Output() toggle = new EventEmitter();
 
   handleToggle() {
