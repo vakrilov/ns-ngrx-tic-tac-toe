@@ -7,7 +7,7 @@ import {device, platformNames} from "platform";
 
 const isIOS = device.os === platformNames.ios;
 const TOGGLE_BTN_HEIGHT = 40;
-const STATUS_BAR_HEIGHT = isIOS ? 22 : 25;
+const STATUS_BAR_HEIGHT = isIOS ? 20 : 25;
 const SOFT_BUTTON_HEIGHT = isIOS ? 0 : 55;
 
 @Component({
@@ -52,13 +52,11 @@ export class DevToolsSlideOut implements AfterViewInit {
     private offsetShown: number;
     private offsetHidden: number;
 
-    constructor() {
-        var height = screen.mainScreen.heightDIPs - STATUS_BAR_HEIGHT - SOFT_BUTTON_HEIGHT;
-        this.offsetHidden = height - this.toggleLength;
-        this.offsetShown = height * this.screenCover - this.toggleLength;
-    }
-
     ngAfterViewInit() {
+        const height = screen.mainScreen.heightDIPs - STATUS_BAR_HEIGHT - SOFT_BUTTON_HEIGHT;
+        this.offsetHidden = height - this.toggleLength;
+        this.offsetShown = height * (1 - this.screenCover) - this.toggleLength;
+
         this.toggleBtn = <View>this.toggleBtnEl.nativeElement;
         this.dock = <View>this.dockEl.nativeElement;
 

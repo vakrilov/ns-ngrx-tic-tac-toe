@@ -24,7 +24,7 @@ interface AppState {
         
         <label row="2" *ngIf="winner" [text]="winner > 0 ? 'X WINS' : 'O WINS'" class="win"></label>
         
-        <dev-tools-slide-out></dev-tools-slide-out>
+        <dev-tools-slide-out screenCover="0.5"></dev-tools-slide-out>
     </grid-layout>`,
     styles: [`
         .board {
