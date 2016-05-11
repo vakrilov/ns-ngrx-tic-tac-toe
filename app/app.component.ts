@@ -4,14 +4,14 @@ import {Store} from '@ngrx/store';
 import {PLAY_O, PLAY_X, RESET} from './board';
 import {BoardComponent} from './board.component';
 
-import { DevToolsSlideOut } from "./ns-log-monitor/dev-tools-slide-out";
+import { NSDockMonitor } from "ngrx-devtools-nativescript";
 interface AppState {
     board: Array<number>;
 }
 
 @Component({
     selector: "my-app",
-    directives: [BoardComponent, DevToolsSlideOut],
+    directives: [BoardComponent, NSDockMonitor],
     template: `
     <grid-layout rows="50, auto, auto, *">
         <button text="new game" (tap)="store.dispatch({type: 'RESET'})"></button>
@@ -24,7 +24,7 @@ interface AppState {
         
         <label row="2" *ngIf="winner" [text]="winner > 0 ? 'X WINS' : 'O WINS'" class="win"></label>
         
-        <dev-tools-slide-out screenCover="0.5"></dev-tools-slide-out>
+        <ns-dock-monitor screenCover="0.5"></ns-dock-monitor>
     </grid-layout>`,
     styles: [`
         .board {

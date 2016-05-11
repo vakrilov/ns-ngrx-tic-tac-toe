@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output, Pipe, PipeTransform} from "@angular/core";
 
-import { DevToolsSlideOut } from "./ns-log-monitor/dev-tools-slide-out";
 interface AppState {
     board: Array<number>;
 }
