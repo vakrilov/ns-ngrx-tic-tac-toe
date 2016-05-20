@@ -7,6 +7,7 @@ As a prerequisite you should setup [the NativeScript CLI](https://docs.nativescr
  1. Get the source code of the app on your machine:  
  ```
  git clone --depth 1 https://github.com/vakrilov/ns-ngrx-tic-tac-toe.git
+ 
  cd ns-ngrx-tic-tac-toe
  ```
  2. Build and run using the NativeScript CLI commands like:  
