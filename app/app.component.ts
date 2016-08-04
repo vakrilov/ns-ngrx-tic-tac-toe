@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
+import "rxjs/add/operator/map";
 import {Store} from '@ngrx/store';
 import {PLAY_O, PLAY_X, RESET} from './board';
 import {BoardComponent} from './board.component';
@@ -14,7 +15,7 @@ interface AppState {
     directives: [BoardComponent, NSDockMonitor],
     template: `
     <grid-layout rows="50, auto, auto, *">
-        <button text="new game" (tap)="store.dispatch({type: 'RESET'})"></button>
+        <button text="new game" (tap)="reset()"></button>
         
         <label row="1" [text]="currentPlayer ? 'X is next' : 'O is next'" class="next" ></label>
         
@@ -56,7 +57,7 @@ export class AppComponent {
         this.board$.map(b => b.reduce((a, b) => a + b, 0) <= 0)
             .subscribe((val) => this.currentPlayer = val);
 
-        this.board$ .map(checkWinner)
+        this.board$.map(checkWinner)
             .subscribe((val) => this.winner = val);
     }
 
@@ -66,9 +67,13 @@ export class AppComponent {
             payload: payload
         });
     }
+
+    reset() {
+        this.store.dispatch({ type: RESET });
+    }
 }
 
-const winPositions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],];
+const winPositions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 function checkWinner(board: Array<number>): number {
     for (let winPos of winPositions) {
         let res = winPos.reduce((sum, index) => sum + board[index], 0);
